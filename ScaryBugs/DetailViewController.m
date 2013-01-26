@@ -19,7 +19,9 @@
 
 @implementation DetailViewController
 
+/////////////////////////////////////////////////////////////////
 #pragma mark - Managing the detail item
+/////////////////////////////////////////////////////////////////
 
 - (void)setDetailItem:(id)newDetailItem
 {
@@ -31,6 +33,7 @@
     }
 }
 
+/////////////////////////////////////////////////////////////////
 - (void)configureView
 {
     // Update the user interface for the detail item.
@@ -51,6 +54,7 @@
 
 }
 
+/////////////////////////////////////////////////////////////////
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,30 +62,75 @@
     [self configureView];
 }
 
+/////////////////////////////////////////////////////////////////
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+/////////////////////////////////////////////////////////////////
+// Before running this on a thread along with a progress dialog
+/////////////////////////////////////////////////////////////////
+//- (IBAction)addPictureTapped:(id)sender
+//{
+//    if (self.picker == nil)
+//    {
+//        self.picker = [[UIImagePickerController alloc] init];
+//        self.picker.delegate = self;
+//        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//        self.picker.allowsEditing = NO;
+//    }
+//    [self.navigationController presentModalViewController:_picker animated:YES];
+//}
+
+/////////////////////////////////////////////////////////////////
+// AFTER running this on a thread along with a progress dialog
+/////////////////////////////////////////////////////////////////
 - (IBAction)addPictureTapped:(id)sender
 {
     if (self.picker == nil)
     {
-        self.picker = [[UIImagePickerController alloc] init];
-        self.picker.delegate = self;
-        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        self.picker.allowsEditing = NO;
+        
+        // 1) Show status
+        [SVProgressHUD showWithStatus:@"Loading picker..."];
+        
+        // 2) Get a concurrent queue form the system
+        dispatch_queue_t concurrentQueue =
+        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        
+        // 3) Load picker in background
+        dispatch_async(concurrentQueue, ^{
+            
+            self.picker = [[UIImagePickerController alloc] init];
+            self.picker.delegate = self;
+            self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            self.picker.allowsEditing = NO;
+            
+            // 4) Present picker in main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController presentModalViewController:_picker animated:YES];
+                [SVProgressHUD dismiss];
+            });
+            
+        });
+        
     }
-    [self.navigationController presentModalViewController:_picker animated:YES];
+    else
+    {
+        [self.navigationController presentModalViewController:_picker animated:YES];
+    }
 }
 
+/////////////////////////////////////////////////////////////////
 - (IBAction)titleFieldTextChanged:(id)sender
 {
     self.detailItem.data.title = self.titleField.text;
 }
 
+/////////////////////////////////////////////////////////////////
 #pragma mark UITextFieldDelegate
+/////////////////////////////////////////////////////////////////
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -89,28 +138,68 @@
     return YES;
 }
 
+/////////////////////////////////////////////////////////////////
 #pragma mark RateViewDelegate
+/////////////////////////////////////////////////////////////////
 
 - (void)rateView:(RateView *)rateView ratingDidChange:(float)rating
 {
     self.detailItem.data.rating = rating;
 }
 
+/////////////////////////////////////////////////////////////////
 #pragma mark UIImagePickerControllerDelegate
+/////////////////////////////////////////////////////////////////
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+/////////////////////////////////////////////////////////////////
+// Before running this on a thread along with a progress dialog
+/////////////////////////////////////////////////////////////////
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+//    
+//    [self dismissModalViewControllerAnimated:YES];
+//    
+//    UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
+//    UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
+//    self.detailItem.fullImage = fullImage;
+//    self.detailItem.thumbImage = thumbImage;
+//    self.imageView.image = fullImage;
+//}
+
+/////////////////////////////////////////////////////////////////
+// AFTER running this on a thread along with a progress dialog
+/////////////////////////////////////////////////////////////////
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     
     [self dismissModalViewControllerAnimated:YES];
     
     UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
-    UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
-    self.detailItem.fullImage = fullImage;
-    self.detailItem.thumbImage = thumbImage;
-    self.imageView.image = fullImage;
+    
+    // 1) Show status
+    [SVProgressHUD showWithStatus:@"Resizing image..."];
+    
+    // 2) Get a concurrent queue form the system
+    dispatch_queue_t concurrentQueue =
+    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    // 3) Resize image in background
+    dispatch_async(concurrentQueue, ^{
+        
+        UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
+        
+        // 4) Present image in main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.detailItem.fullImage = fullImage;
+            self.detailItem.thumbImage = thumbImage;
+            self.imageView.image = fullImage;
+            [SVProgressHUD dismiss];
+        });
+        
+    });
+    
 }
-
 @end

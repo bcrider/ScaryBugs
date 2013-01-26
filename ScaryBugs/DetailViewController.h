@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RateView.h"
+#import "SVProgressHUD.h"
 
 @class ScaryBugDoc;
 

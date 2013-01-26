@@ -35,6 +35,9 @@
 		142CE19216A34B27008C64CF /* shockedface2_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CE18E16A34B27008C64CF /* shockedface2_empty.png */; };
 		142CE19316A34B27008C64CF /* shockedface2_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CE18F16A34B27008C64CF /* shockedface2_full.png */; };
 		142CE19416A34B27008C64CF /* shockedface2_half.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CE19016A34B27008C64CF /* shockedface2_half.png */; };
+		149D181C16AE00B30064A57D /* logo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 149D181B16AE00B30064A57D /* logo1.png */; };
+		149D182016AE06770064A57D /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 149D181F16AE06770064A57D /* SVProgressHUD.m */; };
+		149D182216AE06B70064A57D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 149D182116AE06B70064A57D /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +79,10 @@
 		142CE18E16A34B27008C64CF /* shockedface2_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shockedface2_empty.png; sourceTree = "<group>"; };
 		142CE18F16A34B27008C64CF /* shockedface2_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shockedface2_full.png; sourceTree = "<group>"; };
 		142CE19016A34B27008C64CF /* shockedface2_half.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shockedface2_half.png; sourceTree = "<group>"; };
+		149D181B16AE00B30064A57D /* logo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo1.png; sourceTree = "<group>"; };
+		149D181E16AE06770064A57D /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		149D181F16AE06770064A57D /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		149D182116AE06B70064A57D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149D182216AE06B70064A57D /* QuartzCore.framework in Frameworks */,
 				142CE14316A0B166008C64CF /* UIKit.framework in Frameworks */,
 				142CE14516A0B166008C64CF /* Foundation.framework in Frameworks */,
 				142CE14716A0B166008C64CF /* CoreGraphics.framework in Frameworks */,
@@ -95,6 +103,8 @@
 		142CE13316A0B166008C64CF = {
 			isa = PBXGroup;
 			children = (
+				149D182116AE06B70064A57D /* QuartzCore.framework */,
+				149D181B16AE00B30064A57D /* logo1.png */,
 				142CE14816A0B166008C64CF /* ScaryBugs */,
 				142CE14116A0B166008C64CF /* Frameworks */,
 				142CE13F16A0B166008C64CF /* Products */,
@@ -182,6 +192,8 @@
 		142CE18416A34AB3008C64CF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				149D181E16AE06770064A57D /* SVProgressHUD.h */,
+				149D181F16AE06770064A57D /* SVProgressHUD.m */,
 				142CE18516A34AC7008C64CF /* RateView.h */,
 				142CE18616A34AC7008C64CF /* RateView.m */,
 			);
@@ -276,6 +288,7 @@
 				142CE19216A34B27008C64CF /* shockedface2_empty.png in Resources */,
 				142CE19316A34B27008C64CF /* shockedface2_full.png in Resources */,
 				142CE19416A34B27008C64CF /* shockedface2_half.png in Resources */,
+				149D181C16AE00B30064A57D /* logo1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +307,7 @@
 				142CE17316A0BA21008C64CF /* ScaryBugDoc.m in Sources */,
 				142CE18716A34AC7008C64CF /* RateView.m in Sources */,
 				142CE18B16A34AF6008C64CF /* UIImageExtras.m in Sources */,
+				149D182016AE06770064A57D /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +424,7 @@
 				142CE16716A0B167008C64CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
